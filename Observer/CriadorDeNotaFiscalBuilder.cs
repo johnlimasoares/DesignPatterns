@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Builder
+namespace Observer
 {
     public class CriadorDeNotaFiscalBuilder
     {
@@ -12,9 +12,30 @@ namespace Builder
         public double Impostos { get; private set; }
         public IList<ItemDaNota> Itens = new List<ItemDaNota>();
         public string Observacao { get; private set; }
-        public CriadorDeNotaFiscalBuilder()
+        private IList<IAcaoAposGerarNota> todasAcoesAExecutar = new List<IAcaoAposGerarNota>();
+
+
+        public NotaFiscal Constroi()
         {
+            return new NotaFiscal(RazaoSocial, Cnpj, DataDeEmissao, Observacao, ValorBruto, Impostos, Itens);
+
         }
+
+        public void ExecutarAcoes(NotaFiscal nf)
+        {
+
+            foreach (var acao in todasAcoesAExecutar)
+            {
+                acao.Executa(nf);
+            }
+
+        }
+
+        public void AdicionarAcao(IAcaoAposGerarNota novaAcao)
+        {
+            todasAcoesAExecutar.Add(novaAcao);
+        }
+
 
         public CriadorDeNotaFiscalBuilder ParaEmpresa(string razaoSocial)
         {
@@ -59,9 +80,6 @@ namespace Builder
             return this;
         }
 
-        public NotaFiscal Constroi()
-        {
-            return new NotaFiscal(RazaoSocial, Cnpj, DataDeEmissao, Observacao, ValorBruto, Impostos, Itens);
-        }
+
     }
 }
