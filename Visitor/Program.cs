@@ -5,9 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Visitor
-{
+{/// <summary>
+ /// Visitor
+ /*
+  “Representar uma operação a ser executada nos elementos de uma estrutura de objetos.
+  Visitor permite definir uma nova operação sem mudar as classes dos elementos sobre os quais opera.” 
+  */
+/// </summary>
     public class Program
     {
+
         public static void Main(string[] args)
         {
 
@@ -17,7 +24,7 @@ namespace Visitor
             var soma = new Soma(direita, esquerda);
 
             var impressora = new ImpressoraVisitor();
-            soma.Imprimir(impressora);
+            soma.Imprimir(impressora); // visitor age aqui
 
             Console.WriteLine(" = " + soma.Avaliar());
             Console.ReadKey();
